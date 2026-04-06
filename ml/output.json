@@ -1,0 +1,79 @@
+{
+    "top_skills": [
+        [
+            "general skills",
+            535
+        ],
+        [
+            "python",
+            138
+        ],
+        [
+            "machine learning",
+            138
+        ],
+        [
+            "pandas",
+            138
+        ],
+        [
+            "numpy",
+            138
+        ],
+        [
+            "statistics",
+            138
+        ],
+        [
+            "excel",
+            125
+        ],
+        [
+            "sql",
+            125
+        ],
+        [
+            "communication",
+            125
+        ]
+    ],
+    "skill_demand": {
+        "excel": {
+            "count": 125,
+            "demand_level": "High"
+        },
+        "sql": {
+            "count": 125,
+            "demand_level": "High"
+        },
+        "communication": {
+            "count": 125,
+            "demand_level": "High"
+        },
+        "general skills": {
+            "count": 535,
+            "demand_level": "High"
+        },
+        "python": {
+            "count": 138,
+            "demand_level": "High"
+        },
+        "machine learning": {
+            "count": 138,
+            "demand_level": "High"
+        },
+        "pandas": {
+            "count": 138,
+            "demand_level": "High"
+        },
+        "numpy": {
+            "count": 138,
+            "demand_level": "High"
+        },
+        "statistics": {
+            "count": 138,
+            "demand_level": "High"
+        }
+    },
+    "trend": {}
+}
