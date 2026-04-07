@@ -9,7 +9,7 @@ const COLORS = ["#6366f1", "#8b5cf6", "#06b6d4", "#10b981", "#f59e0b"];
 
 export default function Dashboard() {
   const [skills, setSkills] = useState([]);
-  const [trend, setTrend] = useState({});
+  const [trend, setTrend] = useState([]);
 
   useEffect(() => {
     axios.get("http://localhost:5000/api/skills")
@@ -121,7 +121,6 @@ export default function Dashboard() {
           </Pie>
         </PieChart>
       </div>
-
     </div>
   );
 }
