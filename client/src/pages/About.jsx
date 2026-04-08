@@ -62,7 +62,7 @@ export default function About() {
   ];
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <div className="bg-gray-50 min-h-screen">
       
       {/* HERO SECTION */}
       <div className="bg-gradient-to-br from-indigo-600 to-indigo-800 text-white py-20 px-6">
@@ -87,12 +87,12 @@ export default function About() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-12"
+          className="bg-white rounded-lg shadow-lg p-12"
         >
-          <h2 className="text-4xl font-bold text-gray-800 dark:text-white mb-6">
+          <h2 className="text-4xl font-bold text-gray-800 mb-6">
             Our Mission
           </h2>
-          <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+          <p className="text-lg text-gray-700 leading-relaxed">
             At EDIS, we believe that career decisions should be driven by data, not guesswork. 
             Our mission is to democratize access to employment market intelligence, enabling 
             students, job seekers, and professionals to navigate their career paths with confidence. 
@@ -103,14 +103,14 @@ export default function About() {
       </div>
 
       {/* STATS SECTION */}
-      <div className="bg-white dark:bg-gray-800 py-16 px-6">
+      <div className="bg-white py-16 px-6">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="max-w-5xl mx-auto"
         >
-          <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-12">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
             By The Numbers
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -126,7 +126,7 @@ export default function About() {
                 <div className="text-4xl md:text-5xl font-bold text-indigo-600 mb-2">
                   {stat.number}
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 font-semibold">
+                <p className="text-gray-600 font-semibold">
                   {stat.label}
                 </p>
               </motion.div>
@@ -144,10 +144,10 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
               The Problem
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-gray-600 mb-4">
               The job market evolves rapidly, but career guidance hasn't kept pace. 
               Students and professionals often struggle with questions like:
             </p>
@@ -158,7 +158,7 @@ export default function About() {
                 "What salary should I expect?",
                 "How do I prepare for future opportunities?"
               ].map((item, idx) => (
-                <li key={idx} className="flex items-start gap-3 text-gray-700 dark:text-gray-300">
+                <li key={idx} className="flex items-start gap-3 text-gray-700">
                   <span className="text-indigo-600 text-lg mt-0.5">•</span>
                   {item}
                 </li>
@@ -172,10 +172,10 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
               Our Solution
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-gray-600 mb-4">
               EDIS leverages advanced AI and real-time market data to answer these questions with precision:
             </p>
             <ul className="space-y-3">
@@ -185,7 +185,7 @@ export default function About() {
                 "Salary trends and compensation insights",
                 "Personalized career recommendations"
               ].map((item, idx) => (
-                <li key={idx} className="flex items-start gap-3 text-gray-700 dark:text-gray-300">
+                <li key={idx} className="flex items-start gap-3 text-gray-700">
                   <MdVerified className="text-green-500 text-lg mt-0.5 flex-shrink-0" />
                   {item}
                 </li>
@@ -196,14 +196,14 @@ export default function About() {
       </div>
 
       {/* VALUES SECTION */}
-      <div className="bg-white dark:bg-gray-800 py-20 px-6">
+      <div className="bg-white py-20 px-6">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="max-w-5xl mx-auto"
         >
-          <h2 className="text-4xl font-bold text-center text-gray-800 dark:text-white mb-12">
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">
             Our Core Values
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -217,13 +217,13 @@ export default function About() {
                   whileInView="animate"
                   viewport={{ once: true }}
                   whileHover={{ y: -8 }}
-                  className="text-center p-6 rounded-lg bg-gray-50 dark:bg-gray-700 hover:shadow-lg transition-all duration-300"
+                  className="text-center p-6 rounded-lg bg-gray-50 hover:shadow-lg transition-all duration-300"
                 >
                   <Icon className="text-4xl text-indigo-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">
                     {value.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600">
                     {value.desc}
                   </p>
                 </motion.div>
@@ -241,10 +241,10 @@ export default function About() {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <h2 className="text-4xl font-bold text-center text-gray-800 dark:text-white mb-4">
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-4">
             What Makes Us Different
           </h2>
-          <p className="text-center text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-center text-gray-600 max-w-2xl mx-auto">
             We combine cutting-edge AI technology with comprehensive market data to deliver insights that matter
           </p>
         </motion.div>
@@ -257,15 +257,15 @@ export default function About() {
               initial="initial"
               whileInView="animate"
               viewport={{ once: true }}
-              className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700"
+              className="bg-white rounded-lg p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
             >
               <div className="text-4xl font-bold text-indigo-600 mb-4">
                 {feature.number}
               </div>
-              <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3">
+              <h3 className="text-xl font-bold text-gray-800 mb-3">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-gray-600">
                 {feature.desc}
               </p>
             </motion.div>
@@ -294,24 +294,24 @@ export default function About() {
       </div>
 
       {/* CONTACT SECTION */}
-      <div className="bg-gray-50 dark:bg-gray-900 py-16 px-6">
+      <div className="bg-gray-50 py-16 px-6">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="max-w-3xl mx-auto text-center"
         >
-          <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
             Have Questions?
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+          <p className="text-lg text-gray-600 mb-8">
             We'd love to hear from you. Reach out to our team for more information.
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <button className="px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-all duration-300">
               Contact Us
             </button>
-            <button className="px-6 py-3 border-2 border-indigo-600 bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 rounded-lg font-semibold hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300">
+            <button className="px-6 py-3 border-2 border-indigo-600 bg-white text-indigo-600 rounded-lg font-semibold hover:bg-indigo-50 transition-all duration-300">
               Learn More
             </button>
           </div>

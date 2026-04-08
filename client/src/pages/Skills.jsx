@@ -120,7 +120,7 @@ export default function Skills() {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen py-12 px-6">
+    <div className="bg-gray-50 min-h-screen py-12 px-6">
       
       {/* HEADER */}
       <motion.div
@@ -128,10 +128,10 @@ export default function Skills() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-3">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
           Skill Insights
         </h1>
-        <p className="text-md text-gray-600 dark:text-gray-400">
+        <p className="text-md text-gray-600">
           Search and explore in-demand skills across industries.
         </p>
       </motion.div>
@@ -150,11 +150,11 @@ export default function Skills() {
             placeholder="Search skills (e.g. Machine Learning, Cloud)..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl text-gray-800 dark:text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-all duration-300"
+            className="w-full pl-12 pr-4 py-3 bg-white border-2 border-gray-200 rounded-2xl text-gray-800 placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-all duration-300"
           />
         </div>
         {searchTerm && (
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-sm text-gray-600 mt-2">
             Found {filteredSkills.length} skill(s)
           </p>
         )}
@@ -176,15 +176,15 @@ export default function Skills() {
                 y: -8,
                 boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)"
               }}
-              className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700"
+              className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200"
             >
               {/* TOP SECTION - Title and Badge */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-gray-800 dark:text-white">
+                  <h3 className="text-lg font-bold text-gray-800">
                     {skill.name}
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-gray-500">
                     {skill.category}
                   </p>
                 </div>
@@ -194,30 +194,30 @@ export default function Skills() {
               </div>
 
               {/* DESCRIPTION */}
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+              <p className="text-gray-600 text-sm mb-4">
                 {skill.description}
               </p>
 
               {/* GROWTH TREND */}
-              <div className="flex items-center gap-2 mb-4 text-indigo-600 dark:text-indigo-400">
+              <div className="flex items-center gap-2 mb-4 text-indigo-600">
                 <MdTrendingUp className="text-lg" />
                 <span className="font-semibold">{skill.growthTrend}</span>
-                <span className="text-sm text-gray-600 dark:text-gray-400">growth trend</span>
+                <span className="text-sm text-gray-600">growth trend</span>
               </div>
 
               {/* DIVIDER */}
-              <div className="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+              <div className="border-t border-gray-200 my-4"></div>
 
               {/* RELATED SKILLS */}
               <div className="mt-4">
-                <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">
+                <p className="text-xs font-semibold text-gray-600 mb-2">
                   Related Skills
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {skill.relatedSkills.map((relatedSkill, idx) => (
                     <span
                       key={idx}
-                      className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded border border-gray-200 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200 cursor-pointer"
+                      className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded border border-gray-200 hover:bg-gray-200 transition-colors duration-200 cursor-pointer"
                     >
                       {relatedSkill}
                     </span>
@@ -233,7 +233,7 @@ export default function Skills() {
           animate={{ opacity: 1 }}
           className="text-center py-12"
         >
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-lg text-gray-600">
             No skills found matching "{searchTerm}". Try a different search term.
           </p>
         </motion.div>

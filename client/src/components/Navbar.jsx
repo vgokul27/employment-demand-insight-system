@@ -1,10 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { GiBrain } from "react-icons/gi";
+import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Navbar() {
-  const [dark, setDark] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   const navLinks = [
@@ -18,53 +18,116 @@ export default function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <nav className="flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-900 shadow-md border-b border-gray-200 dark:border-gray-700">
-      
-      {/* LOGO WITH ICON */}
-      <div className="flex items-center gap-2">
-        <GiBrain className="text-2xl text-indigo-600" />
-        <h1 className="text-xl font-bold text-indigo-600">EDIS</h1>
-      </div>
-
-      {/* LINKS */}
-      <div className="hidden md:flex gap-3 text-gray-700 dark:text-gray-300">
-        {navLinks.map((link) => (
-          <Link
-            key={link.path}
-            to={link.path}
-            className={`px-3 py-1 text-sm rounded-lg transition-all duration-300 ease-in-out ${
-              isActive(link.path)
-                ? "bg-indigo-600 text-white border border-indigo-700 shadow-lg"
-                : "hover:bg-white/30 hover:backdrop-blur-md hover:border hover:border-indigo-400 hover:shadow-lg dark:hover:bg-gray-800/40"
-            }`}
-          >
-            {link.label}
-          </Link>
-        ))}
-      </div>
-
-      {/* RIGHT SIDE */}
-      <div className="flex items-center gap-4">
+    <>
+      {/* NAVBAR */}
+      <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md border-b border-gray-200 relative z-40">
         
-        {/* DARK MODE */}
-        <button
-          onClick={() => {
-            setDark(!dark);
-            document.documentElement.classList.toggle("dark");
-          }}
-          className="text-2xl text-gray-700 dark:text-gray-300 hover:bg-white/30 hover:backdrop-blur-md hover:border-2 hover:border-indigo-400 p-2 rounded-lg transition-all duration-300 ease-in-out dark:hover:bg-gray-800/40"
-          title="Toggle dark mode"
-        >
-          {dark ? <MdLightMode /> : <MdDarkMode />}
-        </button>
+        {/* LEFT SIDE - HAMBURGER + LOGO WITH ICON */}
+        <div className="flex items-center gap-4">
+          {/* MOBILE HAMBURGER MENU */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-2xl text-gray-600 hover:text-indigo-600 transition-colors duration-300"
+            aria-label="Toggle menu"
+          >
+            <FiMenu />
+          </button>
 
-        {/* CTA */}
-        <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 hover:shadow-lg transition-all duration-300 ease-in-out">
-          Get Started
-        </button>
+          <div className="flex items-center gap-2">
+            <GiBrain className="text-3xl text-indigo-600" />
+            <h1 className="text-2xl font-bold text-indigo-600">EDIS</h1>
+          </div>
+        </div>
+
+        {/* DESKTOP LINKS */}
+        <div className="hidden md:flex gap-3 font-semibold text-gray-600">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`px-3 py-1.5 text-sm rounded-lg transition-all duration-300 ease-in-out ${
+                isActive(link.path)
+                  ? "bg-indigo-100 text-indigo-600"
+                  : "hover:bg-gray-100 hover:text-black hover:border-indigo-700"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* RIGHT SIDE */}
+        <div className="flex items-center gap-4">
+          
+          {/* DESKTOP CTA */}
+          <button className="hidden md:block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 hover:shadow-lg transition-all duration-300 ease-in-out">
+            Get Started
+          </button>
+        </div>
+      </nav>
+
+      {/* MOBILE SIDEBAR */}
+      {isOpen && (
+        <>
+          {/* BACKDROP */}
+          <div
+            className="fixed inset-0 bg-black/50 z-30 md:hidden"
+            onClick={() => setIsOpen(false)}
+          />
+        </>
+      )}
+
+      {/* SIDEBAR */}
+      <div
+        className={`fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50 transition-transform duration-300 ease-in-out transform md:hidden ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* CLOSE BUTTON */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+          <div className="flex items-center gap-2">
+            <GiBrain className="text-2xl text-indigo-600" />
+            <h1 className="text-xl font-bold text-indigo-600">EDIS</h1>
+          </div>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-2xl text-gray-600 hover:text-indigo-600 transition-colors duration-300"
+            aria-label="Close menu"
+          >
+            <FiX />
+          </button>
+        </div>
+
+        {/* NAVIGATION LINKS */}
+        <nav className="flex flex-col gap-2 p-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              onClick={handleLinkClick}
+              className={`px-4 py-3 rounded-lg transition-all duration-300 font-semibold ${
+                isActive(link.path)
+                  ? "bg-indigo-100 text-indigo-600"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-black"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* MOBILE CTA */}
+        <div className="px-6 py-4">
+          <button className="w-full bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300 font-semibold">
+            Get Started
+          </button>
+        </div>
       </div>
-
-    </nav>
+    </>
   );
 }
