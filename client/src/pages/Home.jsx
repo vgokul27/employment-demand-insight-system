@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { MdTrendingUp, MdAutoAwesome, MdPeople, MdLightbulb, MdSchool, MdBusinessCenter, MdBarChart } from "react-icons/md";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -45,10 +48,16 @@ export default function Home() {
             </p>
 
             <div className="flex gap-4">
-              <button className="bg-indigo-600 text-white px-6 py-3 rounded-lg cursor-pointer hover:bg-indigo-700 transition-all duration-300 font-semibold">
+              <button 
+                onClick={() => navigate("/dashboard")}
+                className="bg-indigo-600 text-white px-6 py-3 rounded-lg cursor-pointer hover:bg-indigo-700 transition-all duration-300 font-semibold"
+              >
                 Explore Insights →
               </button>
-              <button className="bg-gray-200 px-6 py-3 rounded-lg cursor-pointer hover:bg-gray-300 transition-all duration-300 font-semibold">
+              <button 
+                onClick={() => navigate("/signup")}
+                className="bg-gray-200 px-6 py-3 rounded-lg cursor-pointer hover:bg-gray-300 transition-all duration-300 font-semibold"
+              >
                 Get Started
               </button>
             </div>

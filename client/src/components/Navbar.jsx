@@ -1,11 +1,19 @@
-import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { GiBrain } from "react-icons/gi";
 import { FiMenu, FiX } from "react-icons/fi";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is logged in
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, [location]); // Re-check on route change
 
   const navLinks = [
     { path: "/", label: "Home" },
@@ -20,6 +28,19 @@ export default function Navbar() {
 
   const handleLinkClick = () => {
     setIsOpen(false);
+  };
+
+  const handleGetStarted = () => {
+    if (isLoggedIn) {
+      // Logout
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setIsLoggedIn(false);
+      navigate("/");
+    } else {
+      // Navigate to login
+      navigate("/login");
+    }
   };
 
   return (
@@ -65,8 +86,15 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           
           {/* DESKTOP CTA */}
-          <button className="hidden md:block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 hover:shadow-lg transition-all duration-300 ease-in-out">
-            Get Started
+          <button 
+            onClick={handleGetStarted}
+            className={`hidden md:block px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300 ease-in-out font-semibold ${
+              isLoggedIn
+                ? "bg-red-600 text-white hover:bg-red-700"
+                : "bg-indigo-600 text-white hover:bg-indigo-700"
+            }`}
+          >
+            {isLoggedIn ? "Logout" : "Get Started"}
           </button>
         </div>
       </nav>
@@ -123,8 +151,15 @@ export default function Navbar() {
 
         {/* MOBILE CTA */}
         <div className="px-6 py-4">
-          <button className="w-full bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300 font-semibold">
-            Get Started
+          <button 
+            onClick={handleGetStarted}
+            className={`w-full px-4 py-3 rounded-lg transition-all duration-300 font-semibold ${
+              isLoggedIn
+                ? "bg-red-600 text-white hover:bg-red-700"
+                : "bg-indigo-600 text-white hover:bg-indigo-700"
+            }`}
+          >
+            {isLoggedIn ? "Logout" : "Get Started"}
           </button>
         </div>
       </div>

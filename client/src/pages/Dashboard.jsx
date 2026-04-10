@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line, PieChart, Pie, Cell,
@@ -17,6 +18,7 @@ const stats = [
 ];
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [topTrendingSkills, setTopTrendingSkills] = useState([]);
   const [highDemandSkills, setHighDemandSkills] = useState([]);
   const [trend, setTrend] = useState([]);
@@ -26,6 +28,7 @@ export default function Dashboard() {
   const [experience, setExperience] = useState("all");
 
   useEffect(() => {
+
     // Get top trending skills (already includes top 10)
     axios.get("http://localhost:5000/api/skills")
       .then(res => {

@@ -1,15 +1,27 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const mongoose = require("mongoose");
+require("dotenv").config();
+
+const authRoutes = require("./routes/auth");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI || "mongodb+srv://your_username:your_password@cluster0.mongodb.net/edis?retryWrites=true&w=majority")
+  .then(() => console.log("MongoDB connected ✅"))
+  .catch(err => console.log("MongoDB connection error:", err));
+
 // Load ML output
 const data = JSON.parse(
   fs.readFileSync("../ml/output.json", "utf-8")
 );
+
+// AUTH ROUTES
+app.use("/api/auth", authRoutes);
 
 // API ROUTES
 
