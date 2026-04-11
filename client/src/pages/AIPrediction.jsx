@@ -21,61 +21,41 @@ export default function AIPrediction() {
     setPrediction(null);
 
     try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.REACT_APP_GEMINI_API_KEY}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  {
-                    text: `Provide a skill demand forecast for "${skill}" in the job market. Format your response as JSON with the following structure:
-                    {
-                      "skill": "skill name",
-                      "currentDemand": "High/Medium/Low",
-                      "demandTrend": "+15%",
-                      "growthPotential": "High/Medium/Low",
-                      "topIndustries": ["array", "of", "industries"],
-                      "requiredRelatedSkills": ["array", "of", "skills"],
-                      "averageSalaryRange": "$XXX,XXX - $XXX,XXX",
-                      "jobAvailability": "High number of openings",
-                      "futureOutlook": "Brief outlook description",
-                      "recommendations": "Brief recommendations"
-                    }
-                    Provide only the JSON object without any additional text.`,
-                  },
-                ],
-              },
-            ],
-          }),
-        }
-      );
+      // Call backend endpoint instead of Gemini directly
+      const response = await fetch("http://localhost:5000/api/predict-skill", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ skill: skill.trim() }),
+      });
+
+      if (response.status === 404) {
+        const data = await response.json();
+        setError(data.error || "Skill not found in database");
+        return;
+      }
+
+      if (response.status === 429) {
+        const data = await response.json();
+        const waitTime = data.retryAfter || 60;
+        setError(
+          `Request limit reached. The AI service is being used by other users. Please wait ${waitTime} seconds before trying again.`
+        );
+        return;
+      }
 
       if (!response.ok) {
-        throw new Error("Failed to fetch prediction from AI");
+        const data = await response.json();
+        throw new Error(data.error || "Failed to fetch prediction");
       }
 
-      const data = await response.json();
-      const textContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      if (!textContent) {
-        throw new Error("No response from AI");
-      }
-
-      // Parse JSON from response
-      const jsonMatch = textContent.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) {
-        throw new Error("Could not parse AI response");
-      }
-
-      const predictionData = JSON.parse(jsonMatch[0]);
+      const predictionData = await response.json();
       setPrediction(predictionData);
     } catch (err) {
-      setError(err.message || "Failed to get prediction. Please try again.");
+      setError(
+        err.message || "Failed to get prediction. Please try again later."
+      );
       console.error("Error:", err);
     } finally {
       setLoading(false);
@@ -101,9 +81,9 @@ export default function AIPrediction() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-12 text-center"
+        className="mb-6 text-center"
       >
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-3 flex items-center justify-center gap-3">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3 flex items-center justify-center gap-3">
           <MdAutoAwesome className="text-indigo-600" /> AI Skill Predictions
         </h1>
         <p className="text-lg text-gray-600">
@@ -155,10 +135,23 @@ export default function AIPrediction() {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-4 bg-red-100 border border-red-300 rounded-lg p-4 flex items-start gap-3"
+            className={`mt-4 border rounded-lg p-4 flex items-start gap-3 ${
+              error.includes("not found")
+                ? "bg-orange-100 border-orange-300"
+                : "bg-red-100 border-red-300"
+            }`}
           >
-            <MdError className="text-red-500 text-xl flex-shrink-0 mt-0.5" />
-            <p className="text-red-700">{error}</p>
+            <MdError className={`text-xl flex-shrink-0 mt-0.5 ${
+              error.includes("not found") ? "text-orange-500" : "text-red-500"
+            }`} />
+            <div className={error.includes("not found") ? "text-orange-700" : "text-red-700"}>
+              <p className="font-semibold mb-1">{error}</p>
+              {error.includes("not found") && (
+                <p className="text-sm opacity-90">
+                  Try skills like: Python, Java, JavaScript, React, AWS, Docker, Project Management, Sales, etc.
+                </p>
+              )}
+            </div>
           </motion.div>
         )}
       </motion.div>
@@ -171,6 +164,15 @@ export default function AIPrediction() {
           className="max-w-4xl mx-auto"
         >
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            {/* FALLBACK DATA NOTICE */}
+            {prediction._isFallbackData && (
+              <div className="bg-blue-50 border-b-2 border-blue-200 p-4">
+                <p className="text-sm text-blue-700">
+                  📊 <span className="font-semibold">{prediction._message}</span> - Data derived from market analysis.
+                </p>
+              </div>
+            )}
+
             {/* HEADER */}
             <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 p-8 text-white">
               <h2 className="text-3xl font-bold mb-2">{prediction.skill}</h2>

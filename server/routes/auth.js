@@ -151,4 +151,63 @@ router.get("/me", async (req, res) => {
   }
 });
 
+// UPDATE USER SKILLS
+router.put("/update-skills", async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        message: "No token provided"
+      });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { skills } = req.body;
+
+    if (!Array.isArray(skills)) {
+      return res.status(400).json({
+        message: "Skills must be an array"
+      });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      decoded.id,
+      { skills },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
+
+    // Prepare user response (without password)
+    const userResponse = {
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      role: updatedUser.role,
+      skills: updatedUser.skills,
+      createdAt: updatedUser.createdAt
+    };
+
+    res.status(200).json({
+      message: "Skills updated successfully",
+      user: userResponse
+    });
+  } catch (error) {
+    console.error("Update skills error:", error.message);
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        message: "Invalid token"
+      });
+    }
+    res.status(500).json({
+      message: error.message || "Failed to update skills"
+    });
+  }
+});
+
 module.exports = router;

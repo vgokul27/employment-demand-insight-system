@@ -38,9 +38,8 @@ export default function Home() {
               className="text-4xl md:text-5xl font-bold text-gray-800 mb-6 leading-14"
             >
               AI-Powered{" "}
-              <span className="text-indigo-600">Employment</span> 
-              <br />
-              Demand Insight System
+              <span className="bg-gradient-to-r from-indigo-600 to-indigo-800 bg-clip-text text-transparent">Employment Demand </span> 
+               Insight System
             </motion.h1>
 
             <p className="text-gray-600 font-medium font-stretch-ultra-expanded tracking-wider text-lg max-w-xl mb-8">

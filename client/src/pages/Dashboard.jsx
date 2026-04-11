@@ -10,6 +10,18 @@ import { MdTrendingUp, MdWork, MdBusiness, MdAutoAwesome, MdLightbulb, MdTrendin
 
 const COLORS = ["#6366f1", "#8b5cf6", "#06b6d4", "#10b981", "#f59e0b", "#ec4899", "#f97316"];
 
+// Location display mapping
+const LOCATION_DISPLAY = {
+  "all": "All Locations",
+  "united_states": "Chennai",
+  "india": "Bengaluru",
+  "united_kingdom": "Kolkata"
+};
+
+const getLocationDisplayName = (locationValue) => {
+  return LOCATION_DISPLAY[locationValue] || locationValue;
+};
+
 const stats = [
   { icon: MdTrendingUp, label: "Trending Skills", key: "skills", change: "+12%" },
   { icon: MdWork, label: "Active Jobs", value: "24.5K", change: "+8%" },
@@ -30,7 +42,7 @@ export default function Dashboard() {
   useEffect(() => {
 
     // Get top trending skills (already includes top 10)
-    axios.get("http://localhost:5000/api/skills")
+    axios.get(`http://localhost:5000/api/skills?location=${location}&industry=${industry}&level=${experience}`)
       .then(res => {
         console.log("Raw API response:", res.data);
         
@@ -71,7 +83,7 @@ export default function Dashboard() {
       .catch(err => console.error("Error fetching skills:", err));
 
     // Get trend data
-    axios.get("http://localhost:5000/api/trend")
+    axios.get(`http://localhost:5000/api/trend?location=${location}&industry=${industry}&level=${experience}`)
       .then(res => {
         console.log("Trend data:", res.data);
         // Convert trend object to array format for LineChart
@@ -85,12 +97,12 @@ export default function Dashboard() {
       .catch(err => console.error("Error fetching trend:", err));
 
     // Get demand data for additional insights
-    axios.get("http://localhost:5000/api/demand")
+    axios.get(`http://localhost:5000/api/demand?location=${location}&industry=${industry}&level=${experience}`)
       .then(res => {
         setDemand(res.data);
       })
       .catch(err => console.error("Error fetching demand:", err));
-  }, []);
+  }, [location, industry, experience]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 space-y-8">
@@ -98,7 +110,7 @@ export default function Dashboard() {
       {/* HEADER */}
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <h1 className="text-4xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-2">Real-time employment market analytics and AI insights.</p>
+        <p className="text-gray-600 mt-2">Real-time employment market analytics for {getLocationDisplayName(location)}</p>
       </motion.div>
 
       {/* STATS CARDS */}
@@ -108,8 +120,8 @@ export default function Dashboard() {
             key={i}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            whileHover={{ scale: 1.05, y: -5 }}
+            transition={{ duration: 0.5 }}
+            whileHover={{ scale: 1.05 }}
             className="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200"
           >
             <div className="flex items-center gap-4 mb-4">
@@ -141,31 +153,9 @@ export default function Dashboard() {
           className="px-6 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-700 font-medium hover:border-indigo-400 focus:border-indigo-500 focus:outline-none transition-all duration-300 cursor-pointer flex items-center gap-2"
         >
           <option value="all">All Locations</option>
-          <option value="india">India</option>
-          <option value="us">United States</option>
-          <option value="eu">Europe</option>
-        </select>
-
-        <select
-          value={industry}
-          onChange={(e) => setIndustry(e.target.value)}
-          className="px-6 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-700 font-medium hover:border-indigo-400 focus:border-indigo-500 focus:outline-none transition-all duration-300 cursor-pointer flex items-center gap-2"
-        >
-          <option value="all">All Industries</option>
-          <option value="technology">Technology</option>
-          <option value="finance">Finance</option>
-          <option value="healthcare">Healthcare</option>
-        </select>
-
-        <select
-          value={experience}
-          onChange={(e) => setExperience(e.target.value)}
-          className="px-6 py-3 rounded-lg border-2 border-gray-300 bg-white text-gray-700 font-medium hover:border-indigo-400 focus:border-indigo-500 focus:outline-none transition-all duration-300 cursor-pointer flex items-center gap-2"
-        >
-          <option value="all">All Levels</option>
-          <option value="entry">Entry Level</option>
-          <option value="mid">Mid Level</option>
-          <option value="senior">Senior Level</option>
+          <option value="united_states">Chennai</option>
+          <option value="india">Bengaluru</option>
+          <option value="united_kingdom">Kolkata</option>
         </select>
       </motion.div>
 
@@ -180,7 +170,7 @@ export default function Dashboard() {
           className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
         >
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <MdTrendingUp className="text-indigo-600" /> Top 10 High-Demand Skills
+            <MdTrendingUp className="text-indigo-600" /> Top 10 High-Demand Skills in {getLocationDisplayName(location)}
           </h3>
           {highDemandSkills.length > 0 ? (
             <ResponsiveContainer width="100%" height={320}>
@@ -226,7 +216,7 @@ export default function Dashboard() {
           className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
         >
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <MdTrendingUp className="text-purple-600" /> High-Demand Skill Categories
+            <MdTrendingUp className="text-purple-600" /> Skill Categories Trend for {getLocationDisplayName(location)}
           </h3>
           {trend.length > 0 ? (
             <ResponsiveContainer width="100%" height={240}>
@@ -275,7 +265,7 @@ export default function Dashboard() {
           className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
         >
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <MdGpsFixed className="text-indigo-600" /> Top 5 High-Demand Skills Distribution
+            <MdGpsFixed className="text-indigo-600" /> Top 5 Skills Distribution in {getLocationDisplayName(location)}
           </h3>
           {highDemandSkills.length > 0 ? (
             <ResponsiveContainer width="100%" height={200}>
